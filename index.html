@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>You Tube</title>
+    <style>
+      iframe {
+        border: 0px;
+        width: 1000px;
+        height: 500px;
+      }
+      #video-yt h4{
+         margin: 5px;
+         padding: 5px;
+         font-size: 20px;
+         width: 800px;
+         line-height: 1.4;
+
+       }
+        #video-yt p{
+         margin: 0px 5px 10px;
+         padding: 0px 5px;
+         color: rgb(100, 99, 99);
+          vertical-align: text-bottom;
+         
+       }
+        #video-yt p span{
+         background-color: rgb(100, 99, 99);
+         color: white;
+         font-size: 10px;
+         border-radius: 70%;
+         padding: 2px 3px;
+        vertical-align: middle;
+        margin-left: 3px;
+       }
+
+
+    </style>
+  </head>
+  <body>
+    <div id="video-yt"></div>
+  </body>
+</html>
+<script>
+  let data1 = JSON.parse(localStorage.getItem("data_yt"));
+  console.log(data1);
+
+  let displayData = (data) => {
+    document.getElementById("video-yt").innerHTML = "";
+    data.forEach((ele) => {
+      const {
+        id: { videoId },
+        snippet: {
+          thumbnails: {
+            medium: { url },
+          },
+        },
+        snippet: { title },
+        snippet: { channelTitle },
+      } = ele;
+      let div = document.createElement("div");
+      let video = document.createElement("iframe");
+      video.src = `https://www.youtube.com/embed/${videoId}`;
+      video.setAttribute("allowfullscreen","true")
+      video.setAttribute("allow","accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture")
+      //   let div = document.createElement("div");
+      //   let thumbnails = document.createElement("img");
+      //   thumbnails.src =url
+      //   thumbnails.addEventListener("click",()=>{
+      //     let data=[]
+      //     data.push(ele)
+      //     localStorage.setItem("data_yt",JSON.stringify(data))
+      //     window.location.href="youTubeP.html"
+      //   })
+      //   <iframe
+      //     width="560"
+      //     height="315"
+      //     src="https://www.youtube.com/embed/4QOmVeljCoQ"
+      //     title="YouTube video player"
+      //     frameborder="0"
+      //     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      //     allowfullscreen
+      //   ></iframe>;
+
+      let title_yt = document.createElement("h4");
+      title_yt.innerHTML = title;
+      let channelTitle_yt = document.createElement("p");
+      channelTitle_yt.innerHTML = `${channelTitle}   <span> ✓ </span>`;
+
+      div.append(video, title_yt, channelTitle_yt);
+      document.getElementById("video-yt").append(div);
+    });
+  };
+
+  displayData(data1);
+</script>
